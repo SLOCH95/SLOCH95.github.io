@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Vinculación de Terceros</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul:       #1B3A6B;
+    --azul-med:   #2E6DB4;
+    --azul-cl:    #EBF2FC;
+    --naranja:    #C65B11;
+    --naranja-cl: #FEF0E7;
+    --verde:      #2D6A4F;
+    --verde-cl:   #EAF4EF;
+    --morado:     #5C3D8F;
+    --morado-cl:  #F0EBF9;
+    --rojo:       #C0392B;
+    --rojo-cl:    #FDECEA;
+    --amarillo:   #B7791F;
+    --amarillo-cl:#FFFBEB;
+    --gris-1:     #F8F9FB;
+    --gris-2:     #EEF0F4;
+    --gris-3:     #D1D5DB;
+    --gris-t:     #6B7280;
+    --negro:      #111827;
+    --blanco:     #FFFFFF;
+    --sombra:     0 2px 16px rgba(27,58,107,0.10);
+    --sombra-md:  0 4px 32px rgba(27,58,107,0.15);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gris-1);
+    color: var(--negro);
+    min-height: 100vh;
+  }
+
+  /* -- NAV ----------------------------------------------------------- */
+  nav {
+    background: var(--azul);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--blanco);
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.01em;
+  }
+  .nav-brand span {
+    width: 32px; height: 32px;
+    background: var(--azul-med);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+  }
+  .nav-tab {
+    padding: 6px 18px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.65);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-tab:hover { background: rgba(255,255,255,0.1); color: var(--blanco); }
+  .nav-tab.active { background: rgba(255,255,255,0.18); color: var(--blanco); }
+
+  /* -- VISTAS -------------------------------------------------------- */
+  .vista { display: none; }
+  .vista.activa { display: block; }
+
+  /* --------------------------------------------------------------------
+     FORMULARIO PÚBLICO
+  -------------------------------------------------------------------- */
+  .form-hero {
+    background: linear-gradient(135deg, var(--azul) 0%, #2E6DB4 100%);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    color: var(--blanco);
+  }
+  .form-hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  .form-hero p {
+    font-size: 0.95rem;
+    opacity: 0.82;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .form-steps {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin: 2rem auto 0;
+    max-width: 560px;
+  }
+  .form-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+  }
+  .form-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: 60%;
+    right: -40%;
+    height: 2px;
+    background: rgba(255,255,255,0.25);
+  }
+  .step-num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+  }
+  .step-num.done { background: var(--verde); border-color: var(--verde); }
+  .step-num.active { background: var(--blanco); color: var(--azul); border-color: var(--blanco); }
+  .step-label { font-size: 0.78rem; opacity: 0.8; }
+
+  .form-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .seccion-card {
+    background: var(--blanco);
+    border-radius: 14px;
+    box-shadow: var(--sombra);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    display: none;
+  }
+  .seccion-card.activa { display: block; animation: fadeUp 0.35s ease; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .seccion-header {
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .seccion-header.tenedor  { background: var(--naranja-cl); border-bottom: 3px solid var(--naranja); }
+  .seccion-header.vehiculo { background: var(--verde-cl);   border-bottom: 3px solid var(--verde); }
+  .seccion-header.conductor{ background: var(--morado-cl);  border-bottom: 3px solid var(--morado); }
+
+  .sec-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .tenedor  .sec-icon { background: var(--naranja); }
+  .vehiculo .sec-icon { background: var(--verde); }
+  .conductor.sec-icon { background: var(--morado); }
+
+  .sec-title { font-family: 'DM Serif Display', serif; font-size: 1.2rem; }
+  .sec-sub   { font-size: 0.8rem; color: var(--gris-t); margin-top: 2px; }
+
+  .seccion-body { padding: 1.5rem; }
+
+  .campo-grupo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .campo-grupo.full { grid-template-columns: 1fr; }
+
+  .campo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .campo label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--gris-t);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .campo label .req { color: var(--rojo); margin-left: 2px; }
+  .campo input, .campo select {
+    padding: 10px 12px;
+    border: 1.5px solid var(--gris-3);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    color: var(--negro);
+    background: var(--blanco);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .campo input:focus, .campo select:focus {
+    border-color: var(--azul-med);
+    box-shadow: 0 0 0 3px rgba(46,109,180,0.12);
+  }
+  .campo input.error { border-color: var(--rojo); }
+
+  .upload-area {
+    border: 2px dashed var(--gris-3);
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--gris-1);
+    position: relative;
+  }
+  .upload-area:hover { border-color: var(--azul-med); background: var(--azul-cl); }
+  .upload-area.tiene-archivo {
+    border-color: var(--verde);
+    background: var(--verde-cl);
+  }
+  .upload-area input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .upload-txt { font-size: 0.82rem; color: var(--gris-t); }
+  .upload-txt strong { display: block; font-size: 0.88rem; color: var(--negro); margin-bottom: 2px; }
+  .upload-ok { font-size: 0.82rem; color: var(--verde); font-weight: 600; }
+
+  .divider {
+    height: 1px;
+    background: var(--gris-2);
+    margin: 1.2rem 0;
+  }
+  .sub-seccion-titulo {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gris-t);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sub-seccion-titulo::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gris-2);
+  }
+
+  .btn-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    gap: 1rem;
+  }
+  .btn {
+    padding: 11px 28px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .btn-primary { background: var(--azul); color: var(--blanco); }
+  .btn-primary:hover { background: #152d54; transform: translateY(-1px); box-shadow: var(--sombra); }
+  .btn-secondary { background: var(--gris-2); color: var(--negro); }
+  .btn-secondary:hover { background: var(--gris-3); }
+  .btn-success { background: var(--verde); color: var(--blanco); }
+  .btn-success:hover { background: #235c41; transform: translateY(-1px); }
+
+  .alerta-bloqueo {
+    background: var(--rojo-cl);
+    border: 1.5px solid #f5c6c2;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1rem;
+    font-size: 0.88rem;
+    color: var(--rojo);
+    display: none;
+  }
+  .alerta-bloqueo.visible { display: flex; align-items: flex-start; gap: 10px; }
+
+  /* ÉXITO */
+  .exito-card {
+    background: var(--blanco);
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: var(--sombra-md);
+    display: none;
+  }
+  .exito-card.visible { display: block; animation: fadeUp 0.4s ease; }
+  .exito-icon {
+    width: 72px; height: 72px;
+    background: var(--verde);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 1.5rem;
+  }
+  .exito-card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+    color: var(--verde);
+  }
+  .exito-card p { color: var(--gris-t); line-height: 1.6; }
+  .exito-ref {
+    display: inline-block;
+    margin-top: 1.2rem;
+    background: var(--verde-cl);
+    color: var(--verde);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* --------------------------------------------------------------------
+     PANEL ADMIN
+  -------------------------------------------------------------------- */
+  .admin-wrap { max-width: 1300px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  .admin-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .admin-topbar h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.7rem;
+    color: var(--azul);
+  }
+  .admin-topbar p { color: var(--gris-t); font-size: 0.88rem; margin-top: 2px; }
+
+  /* KPIs */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .kpi-card {
+    background: var(--blanco);
+    border-radius: 12px;
+    padding: 1.3rem 1.5rem;
+    box-shadow: var(--sombra);
+    border-left: 4px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .kpi-card.azul   { border-color: var(--azul-med); }
+  .kpi-card.verde  { border-color: var(--verde); }
+  .kpi-card.naranja{ border-color: var(--naranja); }
+  .kpi-card.rojo   { border-color: var(--rojo); }
+  .kpi-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .azul    .kpi-icon { background: var(--azul-cl); }
+  .verde   .kpi-icon { background: var(--verde-cl); }
+  .naranja .kpi-icon { background: var(--naranja-cl); }
+  .rojo    .kpi-icon { background: var(--rojo-cl); }
+  .kpi-num { font-size: 2rem; font-weight: 700; line-height: 1; }
+  .kpi-lbl { font-size: 0.8rem; color: var(--gris-t); margin-top: 3px; }
+  .azul    .kpi-num { color: var(--azul-med); }
+  .verde   .kpi-num { color: var(--verde); }
+  .naranja .kpi-num { color: var(--naranja); }
+  .rojo    .kpi-num { color: var(--rojo); }
+
+  /* Tabla */
+  .tabla-card {
+    background: var(--blanco);
+    border-radius: 14px;
+    box-shadow: var(--sombra);
+    overflow: hidden;
+  }
+  .tabla-header {
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--gris-2);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .tabla-header h3 { font-size: 1rem; font-weight: 700; color: var(--negro); }
+  .tabla-header p  { font-size: 0.8rem; color: var(--gris-t); }
+
+  .buscador {
+    padding: 8px 14px;
+    border: 1.5px solid var(--gris-3);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    width: 220px;
+    transition: border-color 0.2s;
+  }
+  .buscador:focus { border-color: var(--azul-med); }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    padding: 10px 14px;
+    background: var(--gris-1);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--gris-t);
+    text-align: left;
+    border-bottom: 1px solid var(--gris-2);
+    white-space: nowrap;
+  }
+  tbody tr {
+    border-bottom: 1px solid var(--gris-2);
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+  tbody tr:hover { background: var(--azul-cl); }
+  tbody td {
+    padding: 12px 14px;
+    font-size: 0.88rem;
+    vertical-align: middle;
+  }
+  .td-nombre { font-weight: 600; color: var(--negro); }
+  .td-rut    { color: var(--gris-t); font-size: 0.82rem; }
+  .td-fecha  { color: var(--gris-t); font-size: 0.82rem; white-space: nowrap; }
+
+  /* Badge de estado */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .badge-completo   { background: var(--verde-cl);   color: var(--verde); }
+  .badge-bloqueado  { background: var(--rojo-cl);     color: var(--rojo); }
+  .badge-revision   { background: var(--amarillo-cl); color: var(--amarillo); }
+  .badge-habilitado { background: var(--azul-cl);     color: var(--azul-med); }
+
+  /* Barra progreso */
+  .prog-wrap { display: flex; align-items: center; gap: 8px; min-width: 140px; }
+  .prog-bar  {
+    flex: 1; height: 7px; background: var(--gris-2);
+    border-radius: 10px; overflow: hidden;
+  }
+  .prog-fill {
+    height: 100%; border-radius: 10px;
+    background: linear-gradient(90deg, var(--azul-med), var(--verde));
+    transition: width 0.6s ease;
+  }
+  .prog-pct { font-size: 0.78rem; font-weight: 700; color: var(--gris-t); white-space: nowrap; }
+
+  .btn-ver {
+    padding: 5px 14px;
+    background: var(--azul-cl);
+    color: var(--azul-med);
+    border: none;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-ver:hover { background: var(--azul-med); color: var(--blanco); }
+
+  /* -- MODAL DETALLE ------------------------------------------------ */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(17,24,39,0.55);
+    backdrop-filter: blur(3px);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.visible { display: flex; }
+  .modal {
+    background: var(--blanco);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 860px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    animation: fadeUp 0.25s ease;
+  }
+  .modal-top {
+    background: var(--azul);
+    padding: 1.5rem;
+    color: var(--blanco);
+    border-radius: 16px 16px 0 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .modal-top h3 { font-family: 'DM Serif Display', serif; font-size: 1.4rem; }
+  .modal-top p  { font-size: 0.85rem; opacity: 0.75; margin-top: 3px; }
+  .modal-close  {
+    background: rgba(255,255,255,0.15); border: none; color: var(--blanco);
+    width: 32px; height: 32px; border-radius: 8px; font-size: 1.1rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: background 0.2s;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.3); }
+
+  .modal-body { padding: 1.5rem; }
+
+  .modal-seccion {
+    margin-bottom: 1.5rem;
+  }
+  .modal-sec-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+  .ms-tenedor  { background: var(--naranja-cl); color: var(--naranja); }
+  .ms-vehiculo { background: var(--verde-cl);   color: var(--verde); }
+  .ms-conductor{ background: var(--morado-cl);  color: var(--morado); }
+
+  .doc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.75rem;
+  }
+  .doc-item {
+    border: 1.5px solid var(--gris-2);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--gris-1);
+  }
+  .doc-icon { font-size: 1.2rem; flex-shrink: 0; }
+  .doc-name  { font-size: 0.83rem; font-weight: 600; flex: 1; }
+  .doc-venc  { font-size: 0.73rem; color: var(--gris-t); }
+
+  /* Select estado en modal */
+  .estado-select {
+    padding: 4px 8px;
+    border: 1.5px solid var(--gris-3);
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .estado-select:focus { border-color: var(--azul-med); }
+  .estado-select.est-entregado { background: var(--verde-cl);   color: var(--verde);   border-color: var(--verde); }
+  .estado-select.est-proceso   { background: var(--amarillo-cl);color: var(--amarillo);border-color: var(--amarillo); }
+  .estado-select.est-faltante  { background: var(--rojo-cl);    color: var(--rojo);    border-color: var(--rojo); }
+  .estado-select.est-vencido   { background: var(--rojo-cl);    color: var(--rojo);    border-color: var(--rojo); }
+  .estado-select.est-noapl     { background: var(--gris-2);     color: var(--gris-t);  border-color: var(--gris-3); }
+
+  .modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--gris-2);
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .btn-excel {
+    background: var(--verde); color: var(--blanco);
+    padding: 9px 22px;
+    border: none; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700; font-size: 0.88rem;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .btn-excel:hover { background: #235c41; transform: translateY(-1px); }
+  .btn-guardar {
+    background: var(--azul); color: var(--blanco);
+    padding: 9px 22px;
+    border: none; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700; font-size: 0.88rem;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-guardar:hover { background: #152d54; }
+
+  .obs-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid var(--gris-3);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    resize: vertical;
+    min-height: 70px;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-top: 1rem;
+  }
+  .obs-input:focus { border-color: var(--azul-med); }
+
+  .toast {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: var(--verde); color: var(--blanco);
+    padding: 12px 22px; border-radius: 10px;
+    font-weight: 600; font-size: 0.9rem;
+    box-shadow: var(--sombra-md);
+    z-index: 300;
+    transform: translateY(20px); opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+  .toast.visible { transform: translateY(0); opacity: 1; }
+
+  @media (max-width: 768px) {
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .campo-grupo { grid-template-columns: 1fr; }
+    nav { padding: 0 1rem; }
+    .nav-brand span + * { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <span>??</span>
+    Vinculación de Terceros
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="mostrarVista('formulario', this)">Formulario</button>
+    <button class="nav-tab" onclick="mostrarVista('admin', this)">Panel Administrativo</button>
+  </div>
+</nav>
+
+<!-- ------------------------------------------------------------------
+     VISTA 1: FORMULARIO PÚBLICO
+------------------------------------------------------------------ -->
+<div id="vista-formulario" class="vista activa">
+
+  <div class="form-hero">
+    <h1>Envío de Documentos</h1>
+    <p>Complete las tres secciones y adjunte cada documento. El proceso de vinculación se activa cuando el Tenedor esté completo.</p>
+    <div class="form-steps">
+      <div class="form-step">
+        <div class="step-num active" id="step-1">1</div>
+        <div class="step-label">Tenedor</div>
+      </div>
+      <div class="form-step">
+        <div class="step-num" id="step-2">2</div>
+        <div class="step-label">Vehículo</div>
+      </div>
+      <div class="form-step">
+        <div class="step-num" id="step-3">3</div>
+        <div class="step-label">Conductor</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-container">
+
+    <!-- Alerta bloqueo -->
+    <div class="alerta-bloqueo" id="alerta-bloqueo">
+      <span style="font-size:1.2rem;flex-shrink:0">??</span>
+      <span>Complete primero todos los documentos del <strong>Tenedor</strong> para habilitar las secciones de Vehículo y Conductor.</span>
+    </div>
+
+    <!-- SECCIÓN 1: TENEDOR -->
+    <div class="seccion-card activa" id="sec-tenedor">
+      <div class="seccion-header tenedor">
+        <div class="sec-icon" style="background:var(--naranja)">??</div>
+        <div>
+          <div class="sec-title">Tenedor</div>
+          <div class="sec-sub">Datos del titular del vehículo · 5 documentos requeridos</div>
+        </div>
+      </div>
+      <div class="seccion-body">
+        <div class="sub-seccion-titulo">Datos de contacto</div>
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Nombre completo <span class="req">*</span></label>
+            <input type="text" id="t-nombre" placeholder="Ej: Carlos Rodríguez Pérez">
+          </div>
+          <div class="campo">
+            <label>RUT / NIT <span class="req">*</span></label>
+            <input type="text" id="t-rut" placeholder="Ej: 900.123.456-1">
+          </div>
+        </div>
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Teléfono <span class="req">*</span></label>
+            <input type="tel" id="t-tel" placeholder="Ej: 300 123 4567">
+          </div>
+          <div class="campo">
+            <label>Correo electrónico <span class="req">*</span></label>
+            <input type="email" id="t-email" placeholder="correo@ejemplo.com">
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="sub-seccion-titulo">Documentos requeridos</div>
+
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Cédula de ciudadanía <span class="req">*</span></label>
+            <div class="upload-area" id="ua-t-ced">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-t-ced')">
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen · máx 10 MB</div>
+            </div>
+          </div>
+          <div class="campo">
+            <label>RUT empresa <span class="req">*</span></label>
+            <div class="upload-area" id="ua-t-rut">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-t-rut')">
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen · máx 10 MB</div>
+            </div>
+          </div>
+        </div>
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Formato de inscripción <span class="req">*</span></label>
+            <div class="upload-area" id="ua-t-fi">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-t-fi')">
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen · máx 10 MB</div>
+            </div>
+          </div>
+          <div class="campo">
+            <label>Planilla seguridad social <span class="req">*</span></label>
+            <div class="upload-area" id="ua-t-pss">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-t-pss')">
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen · máx 10 MB</div>
+            </div>
+          </div>
+        </div>
+        <div class="campo-grupo full">
+          <div class="campo">
+            <label>Certificación bancaria <span class="req">*</span></label>
+            <div class="upload-area" id="ua-t-cb">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-t-cb')">
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen · máx 10 MB</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-nav">
+          <span style="font-size:0.82rem;color:var(--gris-t)">Paso 1 de 3</span>
+          <button class="btn btn-primary" onclick="avanzarATenedor()">Continuar con Vehículo ?</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 2: VEHÍCULO -->
+    <div class="seccion-card" id="sec-vehiculo">
+      <div class="seccion-header vehiculo">
+        <div class="sec-icon" style="background:var(--verde)">??</div>
+        <div>
+          <div class="sec-title">Vehículo</div>
+          <div class="sec-sub">Documentos del vehículo · SOAT, Tecno, RCE, Tarjetas</div>
+        </div>
+      </div>
+      <div class="seccion-body">
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Placa del vehículo <span class="req">*</span></label>
+            <input type="text" id="v-placa" placeholder="Ej: ABC-123" style="text-transform:uppercase">
+          </div>
+          <div class="campo">
+            <label>¿Tiene tráiler? <span class="req">*</span></label>
+            <select id="v-trailer" onchange="toggleTrailer()">
+              <option value="">Seleccionar...</option>
+              <option value="si">Sí</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="sub-seccion-titulo">Documentos con vencimiento</div>
+
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>SOAT <span class="req">*</span></label>
+            <div class="upload-area" id="ua-v-soat">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-v-soat')">
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen</div>
+            </div>
+          </div>
+          <div class="campo">
+            <label>Fecha vencimiento SOAT <span class="req">*</span></label>
+            <input type="date" id="v-soat-venc">
+          </div>
+        </div>
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Tecnomecánica <span class="req">*</span></label>
+            <div class="upload-area" id="ua-v-tecno">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-v-tecno')">
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen</div>
+            </div>
+          </div>
+          <div class="campo">
+            <label>Fecha vencimiento Tecno. <span class="req">*</span></label>
+            <input type="date" id="v-tecno-venc">
+          </div>
+        </div>
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Póliza RCE <span class="req">*</span></label>
+            <div class="upload-area" id="ua-v-rce">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-v-rce')">
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen</div>
+            </div>
+          </div>
+          <div class="campo">
+            <label>Fecha vencimiento RCE <span class="req">*</span></label>
+            <input type="date" id="v-rce-venc">
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="sub-seccion-titulo">Documentos sin vencimiento</div>
+
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Tarjeta de propiedad <span class="req">*</span></label>
+            <div class="upload-area" id="ua-v-tprop">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-v-tprop')">
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen</div>
+            </div>
+          </div>
+          <div class="campo" id="campo-trailer" style="display:none">
+            <label>Tarjeta de tráiler</label>
+            <div class="upload-area" id="ua-v-ttra">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-v-ttra')">
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-nav">
+          <button class="btn btn-secondary" onclick="volverASeccion('tenedor')">? Volver</button>
+          <button class="btn btn-primary" onclick="avanzarAConductor()">Continuar con Conductor ?</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 3: CONDUCTOR -->
+    <div class="seccion-card" id="sec-conductor">
+      <div class="seccion-header conductor" style="background:var(--morado-cl);border-bottom:3px solid var(--morado)">
+        <div class="sec-icon" style="background:var(--morado)">??</div>
+        <div>
+          <div class="sec-title">Conductor</div>
+          <div class="sec-sub">Documentos del conductor · Cédula, Licencia, Planilla SS</div>
+        </div>
+      </div>
+      <div class="seccion-body">
+        <div class="campo-grupo full">
+          <div class="campo">
+            <label>Nombre completo del conductor <span class="req">*</span></label>
+            <input type="text" id="c-nombre" placeholder="Nombre completo">
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="sub-seccion-titulo">Documentos sin vencimiento</div>
+
+        <div class="campo-grupo full">
+          <div class="campo">
+            <label>Cédula de ciudadanía <span class="req">*</span></label>
+            <div class="upload-area" id="ua-c-ced">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-c-ced')">
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="sub-seccion-titulo">Documentos con vencimiento</div>
+
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Licencia de conducción <span class="req">*</span></label>
+            <div class="upload-area" id="ua-c-lic">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-c-lic')">
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen</div>
+            </div>
+          </div>
+          <div class="campo">
+            <label>Fecha vencimiento Licencia <span class="req">*</span></label>
+            <input type="date" id="c-lic-venc">
+          </div>
+        </div>
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Planilla seguridad social <span class="req">*</span></label>
+            <div class="upload-area" id="ua-c-pss">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-c-pss')">
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen</div>
+            </div>
+          </div>
+          <div class="campo">
+            <label>Fecha vencimiento Planilla SS <span class="req">*</span></label>
+            <input type="date" id="c-pss-venc">
+          </div>
+        </div>
+
+        <div class="btn-nav">
+          <button class="btn btn-secondary" onclick="volverASeccion('vehiculo')">? Volver</button>
+          <button class="btn btn-success" onclick="enviarFormulario()">? Enviar documentos</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjeta éxito -->
+    <div class="exito-card" id="exito-card">
+      <div class="exito-icon">?</div>
+      <h2>Documentos enviados</h2>
+      <p>Recibimos toda tu documentación correctamente.<br>Nuestro equipo la revisará y te contactaremos para continuar con el proceso de vinculación.</p>
+      <div class="exito-ref" id="exito-ref">REF-000</div>
+      <br><br>
+      <button class="btn btn-secondary" onclick="nuevoEnvio()" style="margin:0 auto">Enviar otro proveedor</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ------------------------------------------------------------------
+     VISTA 2: PANEL ADMINISTRATIVO
+------------------------------------------------------------------ -->
+<div id="vista-admin" class="vista">
+  <div class="admin-wrap">
+
+    <div class="admin-topbar">
+      <div>
+        <h2>Panel de Vinculación</h2>
+        <p>Gestión y seguimiento de terceros · Transporte Terrestre de Mercancía</p>
+      </div>
+      <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap">
+        <input class="buscador" type="text" placeholder="Buscar tenedor..." oninput="filtrarTabla(this.value)">
+        <button class="btn btn-primary" style="padding:9px 18px;font-size:0.85rem" onclick="exportarExcel()">? Exportar Excel</button>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card azul">
+        <div class="kpi-icon">??</div>
+        <div>
+          <div class="kpi-num" id="kpi-total">3</div>
+          <div class="kpi-lbl">Total vinculaciones</div>
+        </div>
+      </div>
+      <div class="kpi-card verde">
+        <div class="kpi-icon">?</div>
+        <div>
+          <div class="kpi-num" id="kpi-completos">1</div>
+          <div class="kpi-lbl">Completos</div>
+        </div>
+      </div>
+      <div class="kpi-card naranja">
+        <div class="kpi-icon">?</div>
+        <div>
+          <div class="kpi-num" id="kpi-pendientes">2</div>
+          <div class="kpi-lbl">En proceso</div>
+        </div>
+      </div>
+      <div class="kpi-card rojo">
+        <div class="kpi-icon">?</div>
+        <div>
+          <div class="kpi-num" id="kpi-bloqueados">1</div>
+          <div class="kpi-lbl">Bloqueados</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="tabla-card">
+      <div class="tabla-header">
+        <div>
+          <h3>Registro de Terceros</h3>
+          <p>Haz clic en una fila para ver y actualizar el detalle</p>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Tenedor</th>
+              <th>Placa</th>
+              <th>Conductor</th>
+              <th>Fecha envío</th>
+              <th>Estado</th>
+              <th>Avance</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tabla-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ------------------------------------------------------------------
+     MODAL DETALLE
+------------------------------------------------------------------ -->
+<div class="modal-overlay" id="modal-overlay" onclick="cerrarModal(event)">
+  <div class="modal" id="modal-contenido"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// -- DATOS ------------------------------------------------------------------
+let terceros = [
+  {
+    id: 1,
+    tenedor: "Transportes García Hnos.",
+    rut: "900.123.456-1",
+    tel: "310 555 0001",
+    email: "garcia@transportes.co",
+    fecha: "2025-01-10",
+    estado: "Completo",
+    placa: "ABC-123",
+    trailer: "no",
+    conductor: "Pedro García",
+    obs: "Documentación al día.",
+    docs: {
+      t_ced:   {nombre:"Cédula Tenedor",          estado:"Entregado", vence:null,         archivo:"cedula_garcia.pdf"},
+      t_rut:   {nombre:"RUT Empresa",              estado:"Entregado", vence:null,         archivo:"rut_garcia.pdf"},
+      t_fi:    {nombre:"Formato Inscripción",      estado:"Entregado", vence:null,         archivo:"fi_garcia.pdf"},
+      t_pss:   {nombre:"Planilla SS Tenedor",      estado:"Entregado", vence:"2026-02-28", archivo:"pss_garcia.pdf"},
+      t_cb:    {nombre:"Cert. Bancaria",           estado:"Entregado", vence:null,         archivo:"cb_garcia.pdf"},
+      v_soat:  {nombre:"SOAT",                     estado:"Entregado", vence:"2026-03-15", archivo:"soat_garcia.pdf"},
+      v_tecno: {nombre:"Tecnomecánica",            estado:"Entregado", vence:"2026-09-30", archivo:"tecno_garcia.pdf"},
+      v_rce:   {nombre:"Póliza RCE",               estado:"Entregado", vence:"2026-06-30", archivo:"rce_garcia.pdf"},
+      v_tprop: {nombre:"Tarjeta Propiedad",        estado:"Entregado", vence:null,         archivo:"tprop_garcia.pdf"},
+      v_ttra:  {nombre:"Tarjeta Tráiler",          estado:"No aplica", vence:null,         archivo:null},
+      c_ced:   {nombre:"Cédula Conductor",         estado:"Entregado", vence:null,         archivo:"ced_pedro.pdf"},
+      c_lic:   {nombre:"Licencia Conducción",      estado:"Entregado", vence:"2026-06-30", archivo:"lic_pedro.pdf"},
+      c_pss:   {nombre:"Planilla SS Conductor",    estado:"Entregado", vence:"2026-02-28", archivo:"pss_pedro.pdf"},
+    }
+  },
+  {
+    id: 2,
+    tenedor: "Logística del Norte SAS",
+    rut: "800.654.321-0",
+    tel: "320 555 0002",
+    email: "norte@logistica.co",
+    fecha: "2025-02-15",
+    estado: "Bloqueado",
+    placa: "XYZ-789",
+    trailer: "no",
+    conductor: "Luis Martínez",
+    obs: "Pendiente: Formato inscripción, Planilla SS y Cert. Bancaria del tenedor.",
+    docs: {
+      t_ced:   {nombre:"Cédula Tenedor",          estado:"Entregado", vence:null,         archivo:"cedula_norte.pdf"},
+      t_rut:   {nombre:"RUT Empresa",              estado:"Entregado", vence:null,         archivo:"rut_norte.pdf"},
+      t_fi:    {nombre:"Formato Inscripción",      estado:"Faltante",  vence:null,         archivo:null},
+      t_pss:   {nombre:"Planilla SS Tenedor",      estado:"Faltante",  vence:null,         archivo:null},
+      t_cb:    {nombre:"Cert. Bancaria",           estado:"Faltante",  vence:null,         archivo:null},
+      v_soat:  {nombre:"SOAT",                     estado:"Faltante",  vence:null,         archivo:null},
+      v_tecno: {nombre:"Tecnomecánica",            estado:"Faltante",  vence:null,         archivo:null},
+      v_rce:   {nombre:"Póliza RCE",               estado:"Faltante",  vence:null,         archivo:null},
+      v_tprop: {nombre:"Tarjeta Propiedad",        estado:"En proceso",vence:null,         archivo:null},
+      v_ttra:  {nombre:"Tarjeta Tráiler",          estado:"No aplica", vence:null,         archivo:null},
+      c_ced:   {nombre:"Cédula Conductor",         estado:"Faltante",  vence:null,         archivo:null},
+      c_lic:   {nombre:"Licencia Conducción",      estado:"Faltante",  vence:null,         archivo:null},
+      c_pss:   {nombre:"Planilla SS Conductor",    estado:"Faltante",  vence:null,         archivo:null},
+    }
+  },
+  {
+    id: 3,
+    tenedor: "Trans Rápido Ltda.",
+    rut: "901.789.654-2",
+    tel: "315 555 0003",
+    email: "info@transrapido.co",
+    fecha: "2025-02-20",
+    estado: "En revisión",
+    placa: "MNO-456",
+    trailer: "si",
+    conductor: "Ana Rodríguez",
+    obs: "Tecnomecánica VENCIDA — renovar urgente. RCE en trámite.",
+    docs: {
+      t_ced:   {nombre:"Cédula Tenedor",          estado:"Entregado", vence:null,         archivo:"cedula_rapido.pdf"},
+      t_rut:   {nombre:"RUT Empresa",              estado:"Entregado", vence:null,         archivo:"rut_rapido.pdf"},
+      t_fi:    {nombre:"Formato Inscripción",      estado:"Entregado", vence:null,         archivo:"fi_rapido.pdf"},
+      t_pss:   {nombre:"Planilla SS Tenedor",      estado:"Entregado", vence:"2025-03-31", archivo:"pss_rapido.pdf"},
+      t_cb:    {nombre:"Cert. Bancaria",           estado:"Entregado", vence:null,         archivo:"cb_rapido.pdf"},
+      v_soat:  {nombre:"SOAT",                     estado:"Entregado", vence:"2025-03-15", archivo:"soat_rapido.pdf"},
+      v_tecno: {nombre:"Tecnomecánica",            estado:"Vencido",   vence:"2024-12-10", archivo:"tecno_rapido.pdf"},
+      v_rce:   {nombre:"Póliza RCE",               estado:"En proceso",vence:null,         archivo:null},
+      v_tprop: {nombre:"Tarjeta Propiedad",        estado:"Entregado", vence:null,         archivo:"tprop_rapido.pdf"},
+      v_ttra:  {nombre:"Tarjeta Tráiler",          estado:"Entregado", vence:null,         archivo:"ttra_rapido.pdf"},
+      c_ced:   {nombre:"Cédula Conductor",         estado:"Entregado", vence:null,         archivo:"ced_ana.pdf"},
+      c_lic:   {nombre:"Licencia Conducción",      estado:"Entregado", vence:"2027-02-28", archivo:"lic_ana.pdf"},
+      c_pss:   {nombre:"Planilla SS Conductor",    estado:"En proceso",vence:null,         archivo:null},
+    }
+  }
+];
+
+let terceroActual = null;
+
+// -- NAVEGACIÓN -------------------------------------------------------------
+function mostrarVista(vista, btn) {
+  document.querySelectorAll('.vista').forEach(v => v.classList.remove('activa'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`vista-${vista}`).classList.add('activa');
+  btn.classList.add('active');
+  if (vista === 'admin') renderTabla();
+}
+
+// -- FORMULARIO -------------------------------------------------------------
+function marcarArchivo(input, areaId) {
+  const area = document.getElementById(areaId);
+  if (input.files && input.files[0]) {
+    area.classList.add('tiene-archivo');
+    area.querySelector('.upload-txt').innerHTML =
+      `<span class="upload-ok">? ${input.files[0].name}</span>`;
+  }
+}
+
+function toggleTrailer() {
+  const val = document.getElementById('v-trailer').value;
+  document.getElementById('campo-trailer').style.display = val === 'si' ? 'block' : 'none';
+}
+
+function tieneArchivo(areaId) {
+  return document.getElementById(areaId).classList.contains('tiene-archivo');
+}
+
+function avanzarATenedor() {
+  const nombre = document.getElementById('t-nombre').value.trim();
+  const rut    = document.getElementById('t-rut').value.trim();
+  const tel    = document.getElementById('t-tel').value.trim();
+  const email  = document.getElementById('t-email').value.trim();
+  const archivos = ['ua-t-ced','ua-t-rut','ua-t-fi','ua-t-pss','ua-t-cb'].every(tieneArchivo);
+
+  if (!nombre || !rut || !tel || !email || !archivos) {
+    document.getElementById('alerta-bloqueo').classList.add('visible');
+    window.scrollTo({top: 0, behavior:'smooth'});
+    return;
+  }
+  document.getElementById('alerta-bloqueo').classList.remove('visible');
+  document.getElementById('sec-tenedor').classList.remove('activa');
+  document.getElementById('sec-vehiculo').classList.add('activa');
+  document.getElementById('step-1').classList.remove('active');
+  document.getElementById('step-1').classList.add('done');
+  document.getElementById('step-1').textContent = '?';
+  document.getElementById('step-2').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function avanzarAConductor() {
+  const placa   = document.getElementById('v-placa').value.trim();
+  const trailer = document.getElementById('v-trailer').value;
+  const archivos = ['ua-v-soat','ua-v-tecno','ua-v-rce','ua-v-tprop'].every(tieneArchivo);
+  const fechas  = ['v-soat-venc','v-tecno-venc','v-rce-venc'].every(id => document.getElementById(id).value);
+
+  if (!placa || !trailer || !archivos || !fechas) {
+    mostrarToast('Complete todos los campos y archivos del vehículo', 'rojo');
+    return;
+  }
+  document.getElementById('sec-vehiculo').classList.remove('activa');
+  document.getElementById('sec-conductor').classList.add('activa');
+  document.getElementById('step-2').classList.remove('active');
+  document.getElementById('step-2').classList.add('done');
+  document.getElementById('step-2').textContent = '?';
+  document.getElementById('step-3').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function volverASeccion(sec) {
+  ['tenedor','vehiculo','conductor'].forEach(s => {
+    document.getElementById(`sec-${s}`).classList.remove('activa');
+  });
+  document.getElementById(`sec-${sec}`).classList.add('activa');
+  if (sec === 'tenedor') {
+    document.getElementById('step-2').classList.remove('active','done');
+    document.getElementById('step-2').textContent = '2';
+    document.getElementById('step-1').classList.remove('done');
+    document.getElementById('step-1').classList.add('active');
+    document.getElementById('step-1').textContent = '1';
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function enviarFormulario() {
+  const nombre = document.getElementById('c-nombre').value.trim();
+  const archivos = ['ua-c-ced','ua-c-lic','ua-c-pss'].every(tieneArchivo);
+  const fechas  = ['c-lic-venc','c-pss-venc'].every(id => document.getElementById(id).value);
+
+  if (!nombre || !archivos || !fechas) {
+    mostrarToast('Complete todos los campos del conductor', 'rojo');
+    return;
+  }
+
+  // Crear nuevo tercero y agregarlo al panel
+  const ref = 'REF-' + String(Date.now()).slice(-4);
+  const nuevo = {
+    id: terceros.length + 1,
+    tenedor: document.getElementById('t-nombre').value.trim(),
+    rut:     document.getElementById('t-rut').value.trim(),
+    tel:     document.getElementById('t-tel').value.trim(),
+    email:   document.getElementById('t-email').value.trim(),
+    fecha:   new Date().toISOString().split('T')[0],
+    estado:  "En revisión",
+    placa:   document.getElementById('v-placa').value.trim().toUpperCase(),
+    trailer: document.getElementById('v-trailer').value,
+    conductor: document.getElementById('c-nombre').value.trim(),
+    obs: '',
+    docs: {
+      t_ced:   {nombre:"Cédula Tenedor",       estado:"Entregado", vence:null, archivo:"cedula.pdf"},
+      t_rut:   {nombre:"RUT Empresa",           estado:"Entregado", vence:null, archivo:"rut.pdf"},
+      t_fi:    {nombre:"Formato Inscripción",   estado:"Entregado", vence:null, archivo:"fi.pdf"},
+      t_pss:   {nombre:"Planilla SS Tenedor",   estado:"Entregado", vence:null, archivo:"pss_t.pdf"},
+      t_cb:    {nombre:"Cert. Bancaria",        estado:"Entregado", vence:null, archivo:"cb.pdf"},
+      v_soat:  {nombre:"SOAT",                  estado:"Entregado", vence:document.getElementById('v-soat-venc').value, archivo:"soat.pdf"},
+      v_tecno: {nombre:"Tecnomecánica",         estado:"Entregado", vence:document.getElementById('v-tecno-venc').value, archivo:"tecno.pdf"},
+      v_rce:   {nombre:"Póliza RCE",            estado:"Entregado", vence:document.getElementById('v-rce-venc').value, archivo:"rce.pdf"},
+      v_tprop: {nombre:"Tarjeta Propiedad",     estado:"Entregado", vence:null, archivo:"tprop.pdf"},
+      v_ttra:  {nombre:"Tarjeta Tráiler",       estado: document.getElementById('v-trailer').value === 'si' ? "Entregado" : "No aplica", vence:null, archivo:null},
+      c_ced:   {nombre:"Cédula Conductor",      estado:"Entregado", vence:null, archivo:"ced_c.pdf"},
+      c_lic:   {nombre:"Licencia Conducción",   estado:"Entregado", vence:document.getElementById('c-lic-venc').value, archivo:"lic.pdf"},
+      c_pss:   {nombre:"Planilla SS Conductor", estado:"Entregado", vence:document.getElementById('c-pss-venc').value, archivo:"pss_c.pdf"},
+    }
+  };
+  terceros.push(nuevo);
+  actualizarKPIs();
+
+  document.getElementById('sec-conductor').classList.remove('activa');
+  document.getElementById('exito-card').classList.add('visible');
+  document.getElementById('exito-ref').textContent = ref;
+  document.getElementById('step-3').classList.remove('active');
+  document.getElementById('step-3').classList.add('done');
+  document.getElementById('step-3').textContent = '?';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function nuevoEnvio() {
+  location.reload();
+}
+
+// -- ADMIN ------------------------------------------------------------------
+function calcAvance(docs) {
+  const vals = Object.values(docs);
+  const total = vals.filter(d => d.estado !== 'No aplica').length;
+  const entregados = vals.filter(d => d.estado === 'Entregado').length;
+  return total === 0 ? 0 : Math.round(entregados / total * 100);
+}
+
+function badgeHtml(estado) {
+  const map = {
+    'Completo':    'badge-completo',
+    'Bloqueado':   'badge-bloqueado',
+    'En revisión': 'badge-revision',
+    'Habilitado':  'badge-habilitado',
+  };
+  return `<span class="badge ${map[estado] || 'badge-revision'}">${estado}</span>`;
+}
+
+function renderTabla(filtro = '') {
+  const tbody = document.getElementById('tabla-body');
+  const lista = filtro
+    ? terceros.filter(t => t.tenedor.toLowerCase().includes(filtro.toLowerCase()) ||
+                           t.conductor.toLowerCase().includes(filtro.toLowerCase()) ||
+                           t.placa.toLowerCase().includes(filtro.toLowerCase()))
+    : terceros;
+
+  tbody.innerHTML = lista.map(t => {
+    const av = calcAvance(t.docs);
+    return `
+      <tr onclick="abrirModal(${t.id})">
+        <td>
+          <div class="td-nombre">${t.tenedor}</div>
+          <div class="td-rut">${t.rut}</div>
+        </td>
+        <td><strong>${t.placa}</strong></td>
+        <td>${t.conductor}</td>
+        <td class="td-fecha">${formatFecha(t.fecha)}</td>
+        <td>${badgeHtml(t.estado)}</td>
+        <td>
+          <div class="prog-wrap">
+            <div class="prog-bar"><div class="prog-fill" style="width:${av}%"></div></div>
+            <span class="prog-pct">${av}%</span>
+          </div>
+        </td>
+        <td><button class="btn-ver">Ver detalle</button></td>
+      </tr>`;
+  }).join('');
+
+  actualizarKPIs();
+}
+
+function filtrarTabla(val) { renderTabla(val); }
+
+function actualizarKPIs() {
+  document.getElementById('kpi-total').textContent      = terceros.length;
+  document.getElementById('kpi-completos').textContent  = terceros.filter(t => t.estado === 'Completo').length;
+  document.getElementById('kpi-pendientes').textContent = terceros.filter(t => ['En revisión','Habilitado'].includes(t.estado)).length;
+  document.getElementById('kpi-bloqueados').textContent = terceros.filter(t => t.estado === 'Bloqueado').length;
+}
+
+function formatFecha(f) {
+  if (!f) return '—';
+  const [y,m,d] = f.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+// -- MODAL ------------------------------------------------------------------
+const SECCIONES_DOCS = [
+  { key: 'tenedor',   label: 'Tenedor',   clase: 'ms-tenedor',   keys: ['t_ced','t_rut','t_fi','t_pss','t_cb'] },
+  { key: 'vehiculo',  label: 'Vehículo',  clase: 'ms-vehiculo',  keys: ['v_soat','v_tecno','v_rce','v_tprop','v_ttra'] },
+  { key: 'conductor', label: 'Conductor', clase: 'ms-conductor', keys: ['c_ced','c_lic','c_pss'] },
+];
+
+const OPCIONES_ESTADO = ['Entregado','En proceso','Faltante','Vencido','No aplica'];
+const EST_CLASS = {
+  'Entregado':'est-entregado','En proceso':'est-proceso',
+  'Faltante':'est-faltante','Vencido':'est-vencido','No aplica':'est-noapl'
+};
+
+function abrirModal(id) {
+  terceroActual = terceros.find(t => t.id === id);
+  if (!terceroActual) return;
+  const t = terceroActual;
+  const av = calcAvance(t.docs);
+
+  let html = `
+    <div class="modal-top">
+      <div>
+        <h3>${t.tenedor}</h3>
+        <p>RUT ${t.rut} · Placa <strong>${t.placa}</strong> · Conductor: ${t.conductor} · Enviado: ${formatFecha(t.fecha)}</p>
+      </div>
+      <button class="modal-close" onclick="cerrarModal()">?</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.5rem;flex-wrap:wrap">
+        ${badgeHtml(t.estado)}
+        <div class="prog-wrap" style="flex:1;min-width:180px">
+          <div class="prog-bar"><div class="prog-fill" style="width:${av}%"></div></div>
+          <span class="prog-pct">${av}% completado</span>
+        </div>
+        <select onchange="cambiarEstadoProceso(this.value)"
+          style="padding:5px 10px;border:1.5px solid var(--gris-3);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;outline:none">
+          ${['Habilitado','Bloqueado','En revisión','Completo'].map(e =>
+            `<option value="${e}" ${t.estado===e?'selected':''}>${e}</option>`
+          ).join('')}
+        </select>
+      </div>`;
+
+  SECCIONES_DOCS.forEach(sec => {
+    html += `<div class="modal-seccion">
+      <span class="modal-sec-titulo ${sec.clase}">${sec.label}</span>
+      <div class="doc-grid">`;
+    sec.keys.forEach(k => {
+      const doc = t.docs[k];
+      const opts = OPCIONES_ESTADO.map(o =>
+        `<option value="${o}" ${doc.estado===o?'selected':''}>${o}</option>`
+      ).join('');
+      html += `
+        <div class="doc-item">
+          <span class="doc-icon">${doc.archivo ? '??' : '??'}</span>
+          <div style="flex:1;min-width:0">
+            <div class="doc-name">${doc.nombre}</div>
+            ${doc.vence ? `<div class="doc-venc">Vence: ${formatFecha(doc.vence)}</div>` : ''}
+            ${doc.archivo ? `<div class="doc-venc" style="color:var(--verde)">Archivo recibido</div>` : ''}
+          </div>
+          <select class="estado-select ${EST_CLASS[doc.estado]}"
+            onchange="cambiarEstadoDoc('${k}', this)">
+            ${opts}
+          </select>
+        </div>`;
+    });
+    html += `</div></div>`;
+  });
+
+  html += `
+      <textarea class="obs-input" id="modal-obs" placeholder="Observaciones...">${t.obs || ''}</textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-excel" onclick="exportarUno(${t.id})">? Exportar este registro</button>
+      <button class="btn-guardar" onclick="guardarCambios()">Guardar cambios</button>
+    </div>`;
+
+  document.getElementById('modal-contenido').innerHTML = html;
+  document.getElementById('modal-overlay').classList.add('visible');
+}
+
+function cerrarModal(e) {
+  if (!e || e.target === document.getElementById('modal-overlay')) {
+    document.getElementById('modal-overlay').classList.remove('visible');
+  }
+}
+
+function cambiarEstadoDoc(key, select) {
+  if (!terceroActual) return;
+  const nuevoEst = select.value;
+  terceroActual.docs[key].estado = nuevoEst;
+  select.className = `estado-select ${EST_CLASS[nuevoEst] || ''}`;
+}
+
+function cambiarEstadoProceso(val) {
+  if (terceroActual) terceroActual.estado = val;
+}
+
+function guardarCambios() {
+  if (!terceroActual) return;
+  terceroActual.obs = document.getElementById('modal-obs').value;
+  renderTabla();
+  document.getElementById('modal-overlay').classList.remove('visible');
+  mostrarToast('Cambios guardados correctamente');
+}
+
+// -- EXPORTAR EXCEL (CSV descargable) ---------------------------------------
+function exportarExcel() {
+  let csv = 'N°,Tenedor,RUT,Placa,Conductor,Fecha Envío,Estado Proceso,% Avance,';
+  csv += 'Céd.Tenedor,RUT Emp,F.Inscr,PSS Tend,Cert.Banc,SOAT,Tecno,RCE,T.Prop,T.Tráil,Céd.Cond,Licencia,PSS Cond,Observaciones\n';
+
+  terceros.forEach((t, i) => {
+    const d = t.docs;
+    const av = calcAvance(t.docs);
+    const row = [
+      i+1, `"${t.tenedor}"`, t.rut, t.placa, `"${t.conductor}"`, t.fecha,
+      t.estado, av+'%',
+      d.t_ced.estado, d.t_rut.estado, d.t_fi.estado, d.t_pss.estado, d.t_cb.estado,
+      d.v_soat.estado, d.v_tecno.estado, d.v_rce.estado, d.v_tprop.estado, d.v_ttra.estado,
+      d.c_ced.estado, d.c_lic.estado, d.c_pss.estado,
+      `"${(t.obs||'').replace(/"/g,"'")}"`,
+    ];
+    csv += row.join(',') + '\n';
+  });
+
+  descargarCSV(csv, `Vinculacion_Terceros_${new Date().toISOString().split('T')[0]}.csv`);
+  mostrarToast('Excel exportado correctamente');
+}
+
+function exportarUno(id) {
+  const t = terceros.find(x => x.id === id);
+  if (!t) return;
+  const d = t.docs;
+  let csv = 'División,Documento,Estado,Vencimiento\n';
+  Object.values(d).forEach(doc => {
+    csv += `"${doc.nombre}","${doc.estado}","${doc.vence || 'Sin vencimiento'}"\n`;
+  });
+  csv += `\nObservaciones,"${(t.obs||'').replace(/"/g,"'")}"\n`;
+  descargarCSV(csv, `${t.tenedor.replace(/\s+/g,'_')}_${t.placa}.csv`);
+  mostrarToast('Registro exportado');
+}
+
+function descargarCSV(csv, nombre) {
+  const blob = new Blob(['\uFEFF' + csv], {type:'text/csv;charset=utf-8'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = nombre; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// -- TOAST ------------------------------------------------------------------
+function mostrarToast(msg, tipo = 'verde') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = tipo === 'rojo' ? 'var(--rojo)' : 'var(--verde)';
+  t.classList.add('visible');
+  setTimeout(() => t.classList.remove('visible'), 2800);
+}
+
+// -- INIT -------------------------------------------------------------------
+renderTabla();
+</script>
+</body>
+</html>
