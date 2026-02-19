@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sistema de Vinculación de Terceros</title>
+<title>Sistema de VinculaciÃ³n de Terceros</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -93,7 +93,7 @@
   .vista.activa { display: block; }
 
   /* --------------------------------------------------------------------
-     FORMULARIO PÚBLICO
+     FORMULARIO PÃšBLICO
   -------------------------------------------------------------------- */
   .form-hero {
     background: linear-gradient(135deg, var(--azul) 0%, #2E6DB4 100%);
@@ -320,7 +320,7 @@
   }
   .alerta-bloqueo.visible { display: flex; align-items: flex-start; gap: 10px; }
 
-  /* ÉXITO */
+  /* Ã‰XITO */
   .exito-card {
     background: var(--blanco);
     border-radius: 16px;
@@ -686,7 +686,7 @@
 <nav>
   <div class="nav-brand">
     <span>??</span>
-    Vinculación de Terceros
+    VinculaciÃ³n de Terceros
   </div>
   <div class="nav-tabs">
     <button class="nav-tab active" onclick="mostrarVista('formulario', this)">Formulario</button>
@@ -695,13 +695,13 @@
 </nav>
 
 <!-- ------------------------------------------------------------------
-     VISTA 1: FORMULARIO PÚBLICO
+     VISTA 1: FORMULARIO PÃšBLICO
 ------------------------------------------------------------------ -->
 <div id="vista-formulario" class="vista activa">
 
   <div class="form-hero">
-    <h1>Envío de Documentos</h1>
-    <p>Complete las tres secciones y adjunte cada documento. El proceso de vinculación se activa cuando el Tenedor esté completo.</p>
+    <h1>EnvÃ­o de Documentos</h1>
+    <p>Complete las tres secciones y adjunte cada documento. El proceso de vinculaciÃ³n se activa cuando el Tenedor estÃ© completo.</p>
     <div class="form-steps">
       <div class="form-step">
         <div class="step-num active" id="step-1">1</div>
@@ -709,7 +709,7 @@
       </div>
       <div class="form-step">
         <div class="step-num" id="step-2">2</div>
-        <div class="step-label">Vehículo</div>
+        <div class="step-label">VehÃ­culo</div>
       </div>
       <div class="form-step">
         <div class="step-num" id="step-3">3</div>
@@ -723,16 +723,16 @@
     <!-- Alerta bloqueo -->
     <div class="alerta-bloqueo" id="alerta-bloqueo">
       <span style="font-size:1.2rem;flex-shrink:0">??</span>
-      <span>Complete primero todos los documentos del <strong>Tenedor</strong> para habilitar las secciones de Vehículo y Conductor.</span>
+      <span>Complete primero todos los documentos del <strong>Tenedor</strong> para habilitar las secciones de VehÃ­culo y Conductor.</span>
     </div>
 
-    <!-- SECCIÓN 1: TENEDOR -->
+    <!-- SECCIÃ“N 1: TENEDOR -->
     <div class="seccion-card activa" id="sec-tenedor">
       <div class="seccion-header tenedor">
         <div class="sec-icon" style="background:var(--naranja)">??</div>
         <div>
           <div class="sec-title">Tenedor</div>
-          <div class="sec-sub">Datos del titular del vehículo · 5 documentos requeridos</div>
+          <div class="sec-sub">Datos del titular del vehÃ­culo Â· 5 documentos requeridos</div>
         </div>
       </div>
       <div class="seccion-body">
@@ -740,7 +740,7 @@
         <div class="campo-grupo">
           <div class="campo">
             <label>Nombre completo <span class="req">*</span></label>
-            <input type="text" id="t-nombre" placeholder="Ej: Carlos Rodríguez Pérez">
+            <input type="text" id="t-nombre" placeholder="Ej: Carlos RodrÃ­guez PÃ©rez">
           </div>
           <div class="campo">
             <label>RUT / NIT <span class="req">*</span></label>
@@ -749,11 +749,11 @@
         </div>
         <div class="campo-grupo">
           <div class="campo">
-            <label>Teléfono <span class="req">*</span></label>
+            <label>TelÃ©fono <span class="req">*</span></label>
             <input type="tel" id="t-tel" placeholder="Ej: 300 123 4567">
           </div>
           <div class="campo">
-            <label>Correo electrónico <span class="req">*</span></label>
+            <label>Correo electrÃ³nico <span class="req">*</span></label>
             <input type="email" id="t-email" placeholder="correo@ejemplo.com">
           </div>
         </div>
@@ -763,73 +763,73 @@
 
         <div class="campo-grupo">
           <div class="campo">
-            <label>Cédula de ciudadanía <span class="req">*</span></label>
+            <label>CÃ©dula de ciudadanÃ­a <span class="req">*</span></label>
             <div class="upload-area" id="ua-t-ced">
               <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-t-ced')">
-              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen · máx 10 MB</div>
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen Â· mÃ¡x 10 MB</div>
             </div>
           </div>
           <div class="campo">
             <label>RUT empresa <span class="req">*</span></label>
             <div class="upload-area" id="ua-t-rut">
               <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-t-rut')">
-              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen · máx 10 MB</div>
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen Â· mÃ¡x 10 MB</div>
             </div>
           </div>
         </div>
         <div class="campo-grupo">
           <div class="campo">
-            <label>Formato de inscripción <span class="req">*</span></label>
+            <label>Formato de inscripciÃ³n <span class="req">*</span></label>
             <div class="upload-area" id="ua-t-fi">
               <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-t-fi')">
-              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen · máx 10 MB</div>
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen Â· mÃ¡x 10 MB</div>
             </div>
           </div>
           <div class="campo">
             <label>Planilla seguridad social <span class="req">*</span></label>
             <div class="upload-area" id="ua-t-pss">
               <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-t-pss')">
-              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen · máx 10 MB</div>
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen Â· mÃ¡x 10 MB</div>
             </div>
           </div>
         </div>
         <div class="campo-grupo full">
           <div class="campo">
-            <label>Certificación bancaria <span class="req">*</span></label>
+            <label>CertificaciÃ³n bancaria <span class="req">*</span></label>
             <div class="upload-area" id="ua-t-cb">
               <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-t-cb')">
-              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen · máx 10 MB</div>
+              <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen Â· mÃ¡x 10 MB</div>
             </div>
           </div>
         </div>
 
         <div class="btn-nav">
           <span style="font-size:0.82rem;color:var(--gris-t)">Paso 1 de 3</span>
-          <button class="btn btn-primary" onclick="avanzarATenedor()">Continuar con Vehículo ?</button>
+          <button class="btn btn-primary" onclick="avanzarATenedor()">Continuar con VehÃ­culo ?</button>
         </div>
       </div>
     </div>
 
-    <!-- SECCIÓN 2: VEHÍCULO -->
+    <!-- SECCIÃ“N 2: VEHÃCULO -->
     <div class="seccion-card" id="sec-vehiculo">
       <div class="seccion-header vehiculo">
         <div class="sec-icon" style="background:var(--verde)">??</div>
         <div>
-          <div class="sec-title">Vehículo</div>
-          <div class="sec-sub">Documentos del vehículo · SOAT, Tecno, RCE, Tarjetas</div>
+          <div class="sec-title">VehÃ­culo</div>
+          <div class="sec-sub">Documentos del vehÃ­culo Â· SOAT, Tecno, RCE, Tarjetas</div>
         </div>
       </div>
       <div class="seccion-body">
         <div class="campo-grupo">
           <div class="campo">
-            <label>Placa del vehículo <span class="req">*</span></label>
+            <label>Placa del vehÃ­culo <span class="req">*</span></label>
             <input type="text" id="v-placa" placeholder="Ej: ABC-123" style="text-transform:uppercase">
           </div>
           <div class="campo">
-            <label>¿Tiene tráiler? <span class="req">*</span></label>
+            <label>Â¿Tiene trÃ¡iler? <span class="req">*</span></label>
             <select id="v-trailer" onchange="toggleTrailer()">
               <option value="">Seleccionar...</option>
-              <option value="si">Sí</option>
+              <option value="si">SÃ­</option>
               <option value="no">No</option>
             </select>
           </div>
@@ -853,7 +853,7 @@
         </div>
         <div class="campo-grupo">
           <div class="campo">
-            <label>Tecnomecánica <span class="req">*</span></label>
+            <label>TecnomecÃ¡nica <span class="req">*</span></label>
             <div class="upload-area" id="ua-v-tecno">
               <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-v-tecno')">
               <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen</div>
@@ -866,7 +866,7 @@
         </div>
         <div class="campo-grupo">
           <div class="campo">
-            <label>Póliza RCE <span class="req">*</span></label>
+            <label>PÃ³liza RCE <span class="req">*</span></label>
             <div class="upload-area" id="ua-v-rce">
               <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-v-rce')">
               <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen</div>
@@ -890,7 +890,7 @@
             </div>
           </div>
           <div class="campo" id="campo-trailer" style="display:none">
-            <label>Tarjeta de tráiler</label>
+            <label>Tarjeta de trÃ¡iler</label>
             <div class="upload-area" id="ua-v-ttra">
               <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-v-ttra')">
               <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen</div>
@@ -905,13 +905,13 @@
       </div>
     </div>
 
-    <!-- SECCIÓN 3: CONDUCTOR -->
+    <!-- SECCIÃ“N 3: CONDUCTOR -->
     <div class="seccion-card" id="sec-conductor">
       <div class="seccion-header conductor" style="background:var(--morado-cl);border-bottom:3px solid var(--morado)">
         <div class="sec-icon" style="background:var(--morado)">??</div>
         <div>
           <div class="sec-title">Conductor</div>
-          <div class="sec-sub">Documentos del conductor · Cédula, Licencia, Planilla SS</div>
+          <div class="sec-sub">Documentos del conductor Â· CÃ©dula, Licencia, Planilla SS</div>
         </div>
       </div>
       <div class="seccion-body">
@@ -927,7 +927,7 @@
 
         <div class="campo-grupo full">
           <div class="campo">
-            <label>Cédula de ciudadanía <span class="req">*</span></label>
+            <label>CÃ©dula de ciudadanÃ­a <span class="req">*</span></label>
             <div class="upload-area" id="ua-c-ced">
               <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-c-ced')">
               <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen</div>
@@ -940,7 +940,7 @@
 
         <div class="campo-grupo">
           <div class="campo">
-            <label>Licencia de conducción <span class="req">*</span></label>
+            <label>Licencia de conducciÃ³n <span class="req">*</span></label>
             <div class="upload-area" id="ua-c-lic">
               <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="marcarArchivo(this,'ua-c-lic')">
               <div class="upload-txt"><strong>?? Seleccionar archivo</strong>PDF o imagen</div>
@@ -972,11 +972,11 @@
       </div>
     </div>
 
-    <!-- Tarjeta éxito -->
+    <!-- Tarjeta Ã©xito -->
     <div class="exito-card" id="exito-card">
       <div class="exito-icon">?</div>
       <h2>Documentos enviados</h2>
-      <p>Recibimos toda tu documentación correctamente.<br>Nuestro equipo la revisará y te contactaremos para continuar con el proceso de vinculación.</p>
+      <p>Recibimos toda tu documentaciÃ³n correctamente.<br>Nuestro equipo la revisarÃ¡ y te contactaremos para continuar con el proceso de vinculaciÃ³n.</p>
       <div class="exito-ref" id="exito-ref">REF-000</div>
       <br><br>
       <button class="btn btn-secondary" onclick="nuevoEnvio()" style="margin:0 auto">Enviar otro proveedor</button>
@@ -993,8 +993,8 @@
 
     <div class="admin-topbar">
       <div>
-        <h2>Panel de Vinculación</h2>
-        <p>Gestión y seguimiento de terceros · Transporte Terrestre de Mercancía</p>
+        <h2>Panel de VinculaciÃ³n</h2>
+        <p>GestiÃ³n y seguimiento de terceros Â· Transporte Terrestre de MercancÃ­a</p>
       </div>
       <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap">
         <input class="buscador" type="text" placeholder="Buscar tenedor..." oninput="filtrarTabla(this.value)">
@@ -1049,7 +1049,7 @@
               <th>Tenedor</th>
               <th>Placa</th>
               <th>Conductor</th>
-              <th>Fecha envío</th>
+              <th>Fecha envÃ­o</th>
               <th>Estado</th>
               <th>Avance</th>
               <th></th>
@@ -1077,7 +1077,7 @@
 let terceros = [
   {
     id: 1,
-    tenedor: "Transportes García Hnos.",
+    tenedor: "Transportes GarcÃ­a Hnos.",
     rut: "900.123.456-1",
     tel: "310 555 0001",
     email: "garcia@transportes.co",
@@ -1085,27 +1085,27 @@ let terceros = [
     estado: "Completo",
     placa: "ABC-123",
     trailer: "no",
-    conductor: "Pedro García",
-    obs: "Documentación al día.",
+    conductor: "Pedro GarcÃ­a",
+    obs: "DocumentaciÃ³n al dÃ­a.",
     docs: {
-      t_ced:   {nombre:"Cédula Tenedor",          estado:"Entregado", vence:null,         archivo:"cedula_garcia.pdf"},
+      t_ced:   {nombre:"CÃ©dula Tenedor",          estado:"Entregado", vence:null,         archivo:"cedula_garcia.pdf"},
       t_rut:   {nombre:"RUT Empresa",              estado:"Entregado", vence:null,         archivo:"rut_garcia.pdf"},
-      t_fi:    {nombre:"Formato Inscripción",      estado:"Entregado", vence:null,         archivo:"fi_garcia.pdf"},
+      t_fi:    {nombre:"Formato InscripciÃ³n",      estado:"Entregado", vence:null,         archivo:"fi_garcia.pdf"},
       t_pss:   {nombre:"Planilla SS Tenedor",      estado:"Entregado", vence:"2026-02-28", archivo:"pss_garcia.pdf"},
       t_cb:    {nombre:"Cert. Bancaria",           estado:"Entregado", vence:null,         archivo:"cb_garcia.pdf"},
       v_soat:  {nombre:"SOAT",                     estado:"Entregado", vence:"2026-03-15", archivo:"soat_garcia.pdf"},
-      v_tecno: {nombre:"Tecnomecánica",            estado:"Entregado", vence:"2026-09-30", archivo:"tecno_garcia.pdf"},
-      v_rce:   {nombre:"Póliza RCE",               estado:"Entregado", vence:"2026-06-30", archivo:"rce_garcia.pdf"},
+      v_tecno: {nombre:"TecnomecÃ¡nica",            estado:"Entregado", vence:"2026-09-30", archivo:"tecno_garcia.pdf"},
+      v_rce:   {nombre:"PÃ³liza RCE",               estado:"Entregado", vence:"2026-06-30", archivo:"rce_garcia.pdf"},
       v_tprop: {nombre:"Tarjeta Propiedad",        estado:"Entregado", vence:null,         archivo:"tprop_garcia.pdf"},
-      v_ttra:  {nombre:"Tarjeta Tráiler",          estado:"No aplica", vence:null,         archivo:null},
-      c_ced:   {nombre:"Cédula Conductor",         estado:"Entregado", vence:null,         archivo:"ced_pedro.pdf"},
-      c_lic:   {nombre:"Licencia Conducción",      estado:"Entregado", vence:"2026-06-30", archivo:"lic_pedro.pdf"},
+      v_ttra:  {nombre:"Tarjeta TrÃ¡iler",          estado:"No aplica", vence:null,         archivo:null},
+      c_ced:   {nombre:"CÃ©dula Conductor",         estado:"Entregado", vence:null,         archivo:"ced_pedro.pdf"},
+      c_lic:   {nombre:"Licencia ConducciÃ³n",      estado:"Entregado", vence:"2026-06-30", archivo:"lic_pedro.pdf"},
       c_pss:   {nombre:"Planilla SS Conductor",    estado:"Entregado", vence:"2026-02-28", archivo:"pss_pedro.pdf"},
     }
   },
   {
     id: 2,
-    tenedor: "Logística del Norte SAS",
+    tenedor: "LogÃ­stica del Norte SAS",
     rut: "800.654.321-0",
     tel: "320 555 0002",
     email: "norte@logistica.co",
@@ -1113,49 +1113,49 @@ let terceros = [
     estado: "Bloqueado",
     placa: "XYZ-789",
     trailer: "no",
-    conductor: "Luis Martínez",
-    obs: "Pendiente: Formato inscripción, Planilla SS y Cert. Bancaria del tenedor.",
+    conductor: "Luis MartÃ­nez",
+    obs: "Pendiente: Formato inscripciÃ³n, Planilla SS y Cert. Bancaria del tenedor.",
     docs: {
-      t_ced:   {nombre:"Cédula Tenedor",          estado:"Entregado", vence:null,         archivo:"cedula_norte.pdf"},
+      t_ced:   {nombre:"CÃ©dula Tenedor",          estado:"Entregado", vence:null,         archivo:"cedula_norte.pdf"},
       t_rut:   {nombre:"RUT Empresa",              estado:"Entregado", vence:null,         archivo:"rut_norte.pdf"},
-      t_fi:    {nombre:"Formato Inscripción",      estado:"Faltante",  vence:null,         archivo:null},
+      t_fi:    {nombre:"Formato InscripciÃ³n",      estado:"Faltante",  vence:null,         archivo:null},
       t_pss:   {nombre:"Planilla SS Tenedor",      estado:"Faltante",  vence:null,         archivo:null},
       t_cb:    {nombre:"Cert. Bancaria",           estado:"Faltante",  vence:null,         archivo:null},
       v_soat:  {nombre:"SOAT",                     estado:"Faltante",  vence:null,         archivo:null},
-      v_tecno: {nombre:"Tecnomecánica",            estado:"Faltante",  vence:null,         archivo:null},
-      v_rce:   {nombre:"Póliza RCE",               estado:"Faltante",  vence:null,         archivo:null},
+      v_tecno: {nombre:"TecnomecÃ¡nica",            estado:"Faltante",  vence:null,         archivo:null},
+      v_rce:   {nombre:"PÃ³liza RCE",               estado:"Faltante",  vence:null,         archivo:null},
       v_tprop: {nombre:"Tarjeta Propiedad",        estado:"En proceso",vence:null,         archivo:null},
-      v_ttra:  {nombre:"Tarjeta Tráiler",          estado:"No aplica", vence:null,         archivo:null},
-      c_ced:   {nombre:"Cédula Conductor",         estado:"Faltante",  vence:null,         archivo:null},
-      c_lic:   {nombre:"Licencia Conducción",      estado:"Faltante",  vence:null,         archivo:null},
+      v_ttra:  {nombre:"Tarjeta TrÃ¡iler",          estado:"No aplica", vence:null,         archivo:null},
+      c_ced:   {nombre:"CÃ©dula Conductor",         estado:"Faltante",  vence:null,         archivo:null},
+      c_lic:   {nombre:"Licencia ConducciÃ³n",      estado:"Faltante",  vence:null,         archivo:null},
       c_pss:   {nombre:"Planilla SS Conductor",    estado:"Faltante",  vence:null,         archivo:null},
     }
   },
   {
     id: 3,
-    tenedor: "Trans Rápido Ltda.",
+    tenedor: "Trans RÃ¡pido Ltda.",
     rut: "901.789.654-2",
     tel: "315 555 0003",
     email: "info@transrapido.co",
     fecha: "2025-02-20",
-    estado: "En revisión",
+    estado: "En revisiÃ³n",
     placa: "MNO-456",
     trailer: "si",
-    conductor: "Ana Rodríguez",
-    obs: "Tecnomecánica VENCIDA — renovar urgente. RCE en trámite.",
+    conductor: "Ana RodrÃ­guez",
+    obs: "TecnomecÃ¡nica VENCIDA Â— renovar urgente. RCE en trÃ¡mite.",
     docs: {
-      t_ced:   {nombre:"Cédula Tenedor",          estado:"Entregado", vence:null,         archivo:"cedula_rapido.pdf"},
+      t_ced:   {nombre:"CÃ©dula Tenedor",          estado:"Entregado", vence:null,         archivo:"cedula_rapido.pdf"},
       t_rut:   {nombre:"RUT Empresa",              estado:"Entregado", vence:null,         archivo:"rut_rapido.pdf"},
-      t_fi:    {nombre:"Formato Inscripción",      estado:"Entregado", vence:null,         archivo:"fi_rapido.pdf"},
+      t_fi:    {nombre:"Formato InscripciÃ³n",      estado:"Entregado", vence:null,         archivo:"fi_rapido.pdf"},
       t_pss:   {nombre:"Planilla SS Tenedor",      estado:"Entregado", vence:"2025-03-31", archivo:"pss_rapido.pdf"},
       t_cb:    {nombre:"Cert. Bancaria",           estado:"Entregado", vence:null,         archivo:"cb_rapido.pdf"},
       v_soat:  {nombre:"SOAT",                     estado:"Entregado", vence:"2025-03-15", archivo:"soat_rapido.pdf"},
-      v_tecno: {nombre:"Tecnomecánica",            estado:"Vencido",   vence:"2024-12-10", archivo:"tecno_rapido.pdf"},
-      v_rce:   {nombre:"Póliza RCE",               estado:"En proceso",vence:null,         archivo:null},
+      v_tecno: {nombre:"TecnomecÃ¡nica",            estado:"Vencido",   vence:"2024-12-10", archivo:"tecno_rapido.pdf"},
+      v_rce:   {nombre:"PÃ³liza RCE",               estado:"En proceso",vence:null,         archivo:null},
       v_tprop: {nombre:"Tarjeta Propiedad",        estado:"Entregado", vence:null,         archivo:"tprop_rapido.pdf"},
-      v_ttra:  {nombre:"Tarjeta Tráiler",          estado:"Entregado", vence:null,         archivo:"ttra_rapido.pdf"},
-      c_ced:   {nombre:"Cédula Conductor",         estado:"Entregado", vence:null,         archivo:"ced_ana.pdf"},
-      c_lic:   {nombre:"Licencia Conducción",      estado:"Entregado", vence:"2027-02-28", archivo:"lic_ana.pdf"},
+      v_ttra:  {nombre:"Tarjeta TrÃ¡iler",          estado:"Entregado", vence:null,         archivo:"ttra_rapido.pdf"},
+      c_ced:   {nombre:"CÃ©dula Conductor",         estado:"Entregado", vence:null,         archivo:"ced_ana.pdf"},
+      c_lic:   {nombre:"Licencia ConducciÃ³n",      estado:"Entregado", vence:"2027-02-28", archivo:"lic_ana.pdf"},
       c_pss:   {nombre:"Planilla SS Conductor",    estado:"En proceso",vence:null,         archivo:null},
     }
   }
@@ -1163,7 +1163,7 @@ let terceros = [
 
 let terceroActual = null;
 
-// -- NAVEGACIÓN -------------------------------------------------------------
+// -- NAVEGACIÃ“N -------------------------------------------------------------
 function mostrarVista(vista, btn) {
   document.querySelectorAll('.vista').forEach(v => v.classList.remove('activa'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -1220,7 +1220,7 @@ function avanzarAConductor() {
   const fechas  = ['v-soat-venc','v-tecno-venc','v-rce-venc'].every(id => document.getElementById(id).value);
 
   if (!placa || !trailer || !archivos || !fechas) {
-    mostrarToast('Complete todos los campos y archivos del vehículo', 'rojo');
+    mostrarToast('Complete todos los campos y archivos del vehÃ­culo', 'rojo');
     return;
   }
   document.getElementById('sec-vehiculo').classList.remove('activa');
@@ -1266,24 +1266,24 @@ function enviarFormulario() {
     tel:     document.getElementById('t-tel').value.trim(),
     email:   document.getElementById('t-email').value.trim(),
     fecha:   new Date().toISOString().split('T')[0],
-    estado:  "En revisión",
+    estado:  "En revisiÃ³n",
     placa:   document.getElementById('v-placa').value.trim().toUpperCase(),
     trailer: document.getElementById('v-trailer').value,
     conductor: document.getElementById('c-nombre').value.trim(),
     obs: '',
     docs: {
-      t_ced:   {nombre:"Cédula Tenedor",       estado:"Entregado", vence:null, archivo:"cedula.pdf"},
+      t_ced:   {nombre:"CÃ©dula Tenedor",       estado:"Entregado", vence:null, archivo:"cedula.pdf"},
       t_rut:   {nombre:"RUT Empresa",           estado:"Entregado", vence:null, archivo:"rut.pdf"},
-      t_fi:    {nombre:"Formato Inscripción",   estado:"Entregado", vence:null, archivo:"fi.pdf"},
+      t_fi:    {nombre:"Formato InscripciÃ³n",   estado:"Entregado", vence:null, archivo:"fi.pdf"},
       t_pss:   {nombre:"Planilla SS Tenedor",   estado:"Entregado", vence:null, archivo:"pss_t.pdf"},
       t_cb:    {nombre:"Cert. Bancaria",        estado:"Entregado", vence:null, archivo:"cb.pdf"},
       v_soat:  {nombre:"SOAT",                  estado:"Entregado", vence:document.getElementById('v-soat-venc').value, archivo:"soat.pdf"},
-      v_tecno: {nombre:"Tecnomecánica",         estado:"Entregado", vence:document.getElementById('v-tecno-venc').value, archivo:"tecno.pdf"},
-      v_rce:   {nombre:"Póliza RCE",            estado:"Entregado", vence:document.getElementById('v-rce-venc').value, archivo:"rce.pdf"},
+      v_tecno: {nombre:"TecnomecÃ¡nica",         estado:"Entregado", vence:document.getElementById('v-tecno-venc').value, archivo:"tecno.pdf"},
+      v_rce:   {nombre:"PÃ³liza RCE",            estado:"Entregado", vence:document.getElementById('v-rce-venc').value, archivo:"rce.pdf"},
       v_tprop: {nombre:"Tarjeta Propiedad",     estado:"Entregado", vence:null, archivo:"tprop.pdf"},
-      v_ttra:  {nombre:"Tarjeta Tráiler",       estado: document.getElementById('v-trailer').value === 'si' ? "Entregado" : "No aplica", vence:null, archivo:null},
-      c_ced:   {nombre:"Cédula Conductor",      estado:"Entregado", vence:null, archivo:"ced_c.pdf"},
-      c_lic:   {nombre:"Licencia Conducción",   estado:"Entregado", vence:document.getElementById('c-lic-venc').value, archivo:"lic.pdf"},
+      v_ttra:  {nombre:"Tarjeta TrÃ¡iler",       estado: document.getElementById('v-trailer').value === 'si' ? "Entregado" : "No aplica", vence:null, archivo:null},
+      c_ced:   {nombre:"CÃ©dula Conductor",      estado:"Entregado", vence:null, archivo:"ced_c.pdf"},
+      c_lic:   {nombre:"Licencia ConducciÃ³n",   estado:"Entregado", vence:document.getElementById('c-lic-venc').value, archivo:"lic.pdf"},
       c_pss:   {nombre:"Planilla SS Conductor", estado:"Entregado", vence:document.getElementById('c-pss-venc').value, archivo:"pss_c.pdf"},
     }
   };
@@ -1315,7 +1315,7 @@ function badgeHtml(estado) {
   const map = {
     'Completo':    'badge-completo',
     'Bloqueado':   'badge-bloqueado',
-    'En revisión': 'badge-revision',
+    'En revisiÃ³n': 'badge-revision',
     'Habilitado':  'badge-habilitado',
   };
   return `<span class="badge ${map[estado] || 'badge-revision'}">${estado}</span>`;
@@ -1359,12 +1359,12 @@ function filtrarTabla(val) { renderTabla(val); }
 function actualizarKPIs() {
   document.getElementById('kpi-total').textContent      = terceros.length;
   document.getElementById('kpi-completos').textContent  = terceros.filter(t => t.estado === 'Completo').length;
-  document.getElementById('kpi-pendientes').textContent = terceros.filter(t => ['En revisión','Habilitado'].includes(t.estado)).length;
+  document.getElementById('kpi-pendientes').textContent = terceros.filter(t => ['En revisiÃ³n','Habilitado'].includes(t.estado)).length;
   document.getElementById('kpi-bloqueados').textContent = terceros.filter(t => t.estado === 'Bloqueado').length;
 }
 
 function formatFecha(f) {
-  if (!f) return '—';
+  if (!f) return 'Â—';
   const [y,m,d] = f.split('-');
   return `${d}/${m}/${y}`;
 }
@@ -1372,7 +1372,7 @@ function formatFecha(f) {
 // -- MODAL ------------------------------------------------------------------
 const SECCIONES_DOCS = [
   { key: 'tenedor',   label: 'Tenedor',   clase: 'ms-tenedor',   keys: ['t_ced','t_rut','t_fi','t_pss','t_cb'] },
-  { key: 'vehiculo',  label: 'Vehículo',  clase: 'ms-vehiculo',  keys: ['v_soat','v_tecno','v_rce','v_tprop','v_ttra'] },
+  { key: 'vehiculo',  label: 'VehÃ­culo',  clase: 'ms-vehiculo',  keys: ['v_soat','v_tecno','v_rce','v_tprop','v_ttra'] },
   { key: 'conductor', label: 'Conductor', clase: 'ms-conductor', keys: ['c_ced','c_lic','c_pss'] },
 ];
 
@@ -1392,7 +1392,7 @@ function abrirModal(id) {
     <div class="modal-top">
       <div>
         <h3>${t.tenedor}</h3>
-        <p>RUT ${t.rut} · Placa <strong>${t.placa}</strong> · Conductor: ${t.conductor} · Enviado: ${formatFecha(t.fecha)}</p>
+        <p>RUT ${t.rut} Â· Placa <strong>${t.placa}</strong> Â· Conductor: ${t.conductor} Â· Enviado: ${formatFecha(t.fecha)}</p>
       </div>
       <button class="modal-close" onclick="cerrarModal()">?</button>
     </div>
@@ -1405,7 +1405,7 @@ function abrirModal(id) {
         </div>
         <select onchange="cambiarEstadoProceso(this.value)"
           style="padding:5px 10px;border:1.5px solid var(--gris-3);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;outline:none">
-          ${['Habilitado','Bloqueado','En revisión','Completo'].map(e =>
+          ${['Habilitado','Bloqueado','En revisiÃ³n','Completo'].map(e =>
             `<option value="${e}" ${t.estado===e?'selected':''}>${e}</option>`
           ).join('')}
         </select>
@@ -1476,8 +1476,8 @@ function guardarCambios() {
 
 // -- EXPORTAR EXCEL (CSV descargable) ---------------------------------------
 function exportarExcel() {
-  let csv = 'N°,Tenedor,RUT,Placa,Conductor,Fecha Envío,Estado Proceso,% Avance,';
-  csv += 'Céd.Tenedor,RUT Emp,F.Inscr,PSS Tend,Cert.Banc,SOAT,Tecno,RCE,T.Prop,T.Tráil,Céd.Cond,Licencia,PSS Cond,Observaciones\n';
+  let csv = 'NÂ°,Tenedor,RUT,Placa,Conductor,Fecha EnvÃ­o,Estado Proceso,% Avance,';
+  csv += 'CÃ©d.Tenedor,RUT Emp,F.Inscr,PSS Tend,Cert.Banc,SOAT,Tecno,RCE,T.Prop,T.TrÃ¡il,CÃ©d.Cond,Licencia,PSS Cond,Observaciones\n';
 
   terceros.forEach((t, i) => {
     const d = t.docs;
@@ -1501,7 +1501,7 @@ function exportarUno(id) {
   const t = terceros.find(x => x.id === id);
   if (!t) return;
   const d = t.docs;
-  let csv = 'División,Documento,Estado,Vencimiento\n';
+  let csv = 'DivisiÃ³n,Documento,Estado,Vencimiento\n';
   Object.values(d).forEach(doc => {
     csv += `"${doc.nombre}","${doc.estado}","${doc.vence || 'Sin vencimiento'}"\n`;
   });
